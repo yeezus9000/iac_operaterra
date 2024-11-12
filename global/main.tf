@@ -7,7 +7,7 @@ provider "azurerm" {
 
 terraform {
   backend "azurerm" {
-    resource_group_name  = var.resource_group_name
+    resource_group_name  = var.state_resource_group
     storage_account_name = var.state_storage_account_name
     container_name       = var.state_container_name
     key                  = "${var.environment}.terraform.tfstate"
@@ -69,6 +69,11 @@ variable "created_by_tag" {
   description = "Unique identifier tag for resources created by this App ID (right now I use it to easily destroy my own stuff, but can be substituted for some arbitrary tag for whatever tracking the 'Company' needs)"
   type        = string
   default     = "akseles"
+}
+
+variable "state_resource_group" {
+  type        = string
+  description = "Needed for backend"
 }
 
 # Creating locals based on variables:
