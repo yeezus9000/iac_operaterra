@@ -22,7 +22,7 @@ locals {
   location                   = data.terraform_remote_state.global.outputs.location
   created_by_tag             = data.terraform_remote_state.global.outputs.created_by_tag
   environment                = data.terraform_remote_state.global.outputs.environment
-  project_name               = data.terraform_remote_state.global.project_name
+  project_name               = data.terraform_remote_state.global.outputs.project_name
   state_storage_account_name = data.terraform_remote_state.global.outputs.state_storage_account_name
   state_container_name       = data.terraform_remote_state.global.outputs.state_container_name
   subscription_id            = data.terraform_remote_state.global.outputs.subscription_id
