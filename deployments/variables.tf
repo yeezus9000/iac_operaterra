@@ -1,41 +1,21 @@
-variable "environment" {
-  description = "Deployment environment (e.g., dev, staging, prod)."
-  type        = string
-}
-
-variable "location" {
-  description = "Azure region for the resources."
-  type        = string
-  default     = "North Europe"
-}
-
-variable "resource_group_name" {
-  description = "Name of the resource group where resources will be created."
-  type        = string
-}
-
-variable "resource_group_id" {
-  description = "ID of the resource group where resources will be created"
-  type        = number
-}
-
-# Project name to ensure unique and consistent resource naming
-variable "project_name" {
-  description = "Project name used for naming resources consistently across modules."
-  type        = string
-}
+# /deployments/variables.tf
 
 variable "state_storage_account_name" {
-  description = "Name of the storage account used for the Terraform remote state"
+  description = "Storage account name for Terraform state"
   type        = string
 }
 
-variable "state_storage_account_container" {
-  description = "Name of the container in the storage account for the Terraform state file"
+variable "state_container_name" {
+  description = "Container name for Terraform state"
   type        = string
 }
 
-variable "subscription_id" {
-  description = "Azure subscription ID"
+variable "state_resource_group" {
+  description = "Resource group where the Terraform state storage account is located"
+  type        = string
+}
+
+variable "environment" {
+  description = "Deployment environment (e.g., dev, staging, prod)"
   type        = string
 }
