@@ -75,7 +75,7 @@ jobs:
 
       - name: Terraform Apply (Non-Prod)
         if: github.ref_name != 'prod'
-        run: terraform apply -auto-approve tfplan
+        run: terraform -chdir=global apply -auto-approve tfplan
 
       - name: Terraform Apply (Prod - Requires Approval)
         if: github.ref_name == 'prod'
