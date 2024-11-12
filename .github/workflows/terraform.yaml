@@ -79,4 +79,6 @@ jobs:
         run: terraform apply -auto-approve tfplan
         environment:
           name: production
-          url: https://portal.azure.com/
+        run: |
+          echo "Manual approval required for production deployment."
+          echo "Review the Terraform plan before applying."
