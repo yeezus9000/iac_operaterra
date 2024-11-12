@@ -30,13 +30,13 @@ jobs:
           RESOURCE_GROUPS=$(az group list --subscription ${{ env.ARM_SUBSCRIPTION_ID }} --tag created_by=${{ env.CREATED_BY_TAG }} --query "[].name" -o tsv)
           echo "Resource groups to delete:"
           echo "$RESOURCE_GROUPS"
-          echo "::set-output name=resource_groups::$RESOURCE_GROUPS"
+          echo "resource_groups=$RESOURCE_GROUPS" >> $GITHUB_ENV
 
       # Step 2: Delete Resource Groups Matching the Tag
       - name: Delete Resource Groups
-        if: steps.list_rg.outputs.resource_groups != ''
+        if: env.RESOURCE_GROUPS != ''
         run: |
-          echo "${{ steps.list_rg.outputs.resource_groups }}" | while read -r RG
+          echo "$RESOURCE_GROUPS" | while read -r RG
           do
             echo "Deleting resource group: $RG"
             # Uncomment the line below for actual deletion
