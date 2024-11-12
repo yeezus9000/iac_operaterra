@@ -4,9 +4,6 @@ provider "azurerm" {
   features {}
 }
 
-locals {
-  global_resource_group = "${var.project_name}-global"
-}
 
 terraform {
   backend "azurerm" {
