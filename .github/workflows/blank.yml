@@ -1,0 +1,52 @@
+name: Azure Resource Cleanup
+
+on:
+  workflow_dispatch:  # Allows manual triggering from the GitHub Actions interface
+
+env:
+  ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+  ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+  ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+  ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+  CREATED_BY_TAG: "akseles"  # Tag value used to identify your resources
+
+jobs:
+  cleanup:
+    name: Azure Resource Cleanup
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Login to Azure CLI
+        run: |
+          az login --service-principal \
+            -u ${{ env.ARM_CLIENT_ID }} \
+            -p ${{ env.ARM_CLIENT_SECRET }} \
+            --tenant ${{ env.ARM_TENANT_ID }}
+        
+      # Step 1: List Resource Groups with the Unique Tag
+      - name: List Resource Groups with Tag
+        id: list_rg
+        run: |
+          RESOURCE_GROUPS=$(az group list --subscription ${{ env.ARM_SUBSCRIPTION_ID }} --tag created_by=${{ env.CREATED_BY_TAG }} --query "[].name" -o tsv)
+          echo "::set-output name=resource_groups::$RESOURCE_GROUPS"
+
+      # Step 2: Delete Resource Groups Matching the Tag
+      - name: Delete Resource Groups
+        if: steps.list_rg.outputs.resource_groups != ''
+        run: |
+          for RG in ${{ steps.list_rg.outputs.resource_groups }}
+          do
+            echo "Deleting resource group: $RG"
+            az group delete --name $RG --subscription ${{ env.ARM_SUBSCRIPTION_ID }} --yes --no-wait
+          done
+        shell: bash
+
+      # Optional Step: Delete Tagged Resources Individually if Not in Resource Groups
+      - name: Delete Other Tagged Resources (Optional)
+        run: |
+          echo "Deleting all resources with tag created_by=${{ env.CREATED_BY_TAG }} in subscription."
+          az resource list --subscription ${{ env.ARM_SUBSCRIPTION_ID }} --tag created_by=${{ env.CREATED_BY_TAG }} --query "[].id" -o tsv | while read resource_id
+          do
+            echo "Deleting resource: $resource_id"
+            az resource delete --ids $resource_id --subscription ${{ env.ARM_SUBSCRIPTION_ID }}
+          done
