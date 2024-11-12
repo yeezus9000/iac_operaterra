@@ -59,7 +59,7 @@ jobs:
     if: github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/staging' || (github.ref == 'refs/heads/prod' && github.event_name == 'workflow_dispatch')
 
     env:
-      RESOURCE_GROUP_NAME: ${{ secrets.RESOURCE_GROUP_NAME }}-${{ github.ref_name }}"
+      RESOURCE_GROUP_NAME: "${{ secrets.RESOURCE_GROUP_NAME }}-${{ github.ref_name }}"
 
     steps:
       - name: Checkout code
