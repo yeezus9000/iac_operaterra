@@ -33,11 +33,6 @@ variable "environment" {
   type        = string
 }
 
-variable "resource_group_name" {
-  type        = string
-  description = "Name of the resource group"
-}
-
 variable "state_storage_account_name" {
   type        = string
   description = "Storage account for remote state"
@@ -66,10 +61,15 @@ variable "created_by_tag" {
   default     = "akseles"
 }
 
+# Creating locals based on variables:
+locals {
+  resource_group_name = var.project_name + "-" + var.environment + "-rg"
+}
+
 # Generating resources:
 
 resource "azurerm_resource_group" "rg" {
-  name     = var.resource_group_name
+  name     = local.resource_group_name
   location = var.location
   tags = {
     created_by = var.created_by_tag

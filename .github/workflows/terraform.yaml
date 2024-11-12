@@ -62,9 +62,6 @@ jobs:
     name: Terraform Global and Environment Deployments
     runs-on: ubuntu-latest
 
-    env:
-      RESOURCE_GROUP_NAME: "${{ env.PROJECT_NAME }}-rg-${{ github.ref_name }}"
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -86,7 +83,7 @@ jobs:
       #   run: terraform -chdir=global plan -var="environment=${{ github.ref_name }}" -var="project_name=${{ env.PROJECT_NAME }}" -var="resource_group_name=${{ env.RESOURCE_GROUP_NAME }}" -out=tfplan-global
 
       - name: Terraform Plan for Global
-        run: terraform -chdir=global plan -var="subscription_id=${{ env.ARM_SUBSCRIPTION_ID }}" -var="tenant_id=${{ env.ARM_TENANT_ID }}" -var="client_id=${{ env.ARM_CLIENT_ID }}" -var="client_secret=${{ env.ARM_CLIENT_SECRET }}" -var="resource_group_name=${{ env.RESOURCE_GROUP_NAME }}" -var="state_storage_account_name=${{ env.STORAGE_ACCOUNT_NAME }}" -var="state_container_name=${{ env.STORAGE_ACCOUNT_CONTAINER }}" -var="environment=${{ github.ref_name }}" -var="project_name=${{ env.PROJECT_NAME }}" -out=tfplan-global
+        run: terraform -chdir=global plan -var="subscription_id=${{ env.ARM_SUBSCRIPTION_ID }}" -var="tenant_id=${{ env.ARM_TENANT_ID }}" -var="client_id=${{ env.ARM_CLIENT_ID }}" -var="client_secret=${{ env.ARM_CLIENT_SECRET }}" -var="state_storage_account_name=${{ env.STORAGE_ACCOUNT_NAME }}" -var="state_container_name=${{ env.STORAGE_ACCOUNT_CONTAINER }}" -var="environment=${{ github.ref_name }}" -var="project_name=${{ env.PROJECT_NAME }}" -out=tfplan-global
 
       - name: Terraform Apply for Global
         run: terraform -chdir=global apply -auto-approve tfplan-global
