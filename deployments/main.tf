@@ -1,5 +1,9 @@
 # deployments/main.tf
 
+provider "azurerm" {
+  features {}
+}
+
 locals {
   state_key = "${var.environment}.terraform.tfstate" # Matches the naming convention in GitHub Actions
 }
