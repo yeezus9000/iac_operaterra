@@ -40,7 +40,7 @@ jobs:
           do
             echo "Deleting resource group: $RG"
             # Uncomment the line below for actual deletion
-            # az group delete --name "$RG" --subscription ${{ env.ARM_SUBSCRIPTION_ID }} --yes --no-wait
+            az group delete --name "$RG" --subscription ${{ env.ARM_SUBSCRIPTION_ID }} --yes --no-wait
           done
         shell: bash
 
@@ -50,6 +50,6 @@ jobs:
           echo "Deleting all resources with tag created_by=${{ env.CREATED_BY_TAG }} in subscription."
           az resource list --subscription ${{ env.ARM_SUBSCRIPTION_ID }} --tag created_by=${{ env.CREATED_BY_TAG }} --query "[].id" -o tsv | while read resource_id
           do
-            echo "Deleting resource: $resource_id"
-            az resource delete --ids $resource_id --subscription ${{ env.ARM_SUBSCRIPTION_ID }}
+            echo "UNCOMMENT BELOW IF NEEDED Deleting resource: $resource_id"
+            # az resource delete --ids $resource_id --subscription ${{ env.ARM_SUBSCRIPTION_ID }}
           done
