@@ -27,12 +27,6 @@ variable "client_secret" {
   description = "Azure Client Secret"
 }
 
-# Context dependent variables:
-variable "environment" {
-  description = "Deployment environment passed in through GitHub actions"
-  type        = string
-}
-
 variable "state_storage_account_name" {
   type        = string
   description = "Storage account for remote state"
@@ -41,6 +35,12 @@ variable "state_storage_account_name" {
 variable "state_container_name" {
   type        = string
   description = "Container for remote state"
+}
+
+# Context dependent variables:
+variable "environment" {
+  description = "Deployment environment passed in through GitHub actions"
+  type        = string
 }
 
 variable "project_name" {

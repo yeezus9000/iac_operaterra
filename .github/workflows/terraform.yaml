@@ -16,10 +16,9 @@ env:
   ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
   ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
   ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
-  PROJECT_NAME: "akseles-operaterra"
-  # NOT IN USE? :
   STORAGE_ACCOUNT_NAME: ${{ secrets.STORAGE_ACCOUNT_NAME }}
-  STORAGE_ACCOUNT_CONTAINER: ${{ secrets.STORAGE_ACCOUNT_CONTAINER }}
+  PROJECT_NAME: "akseles-operaterra"
+  STORAGE_ACCOUNT_CONTAINER: "akseles-operaterra-backend"
 
 jobs:
   validate:
