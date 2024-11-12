@@ -36,11 +36,11 @@ jobs:
       - name: Delete Resource Groups
         if: steps.list_rg.outputs.resource_groups != ''
         run: |
-          for RG in ${{ steps.list_rg.outputs.resource_groups }}
+          echo "${{ steps.list_rg.outputs.resource_groups }}" | while read -r RG
           do
             echo "Deleting resource group: $RG"
-            echo "simulating only"
-            # az group delete --name $RG --subscription ${{ env.ARM_SUBSCRIPTION_ID }} --yes --no-wait
+            # Uncomment the line below for actual deletion
+            # az group delete --name "$RG" --subscription ${{ env.ARM_SUBSCRIPTION_ID }} --yes --no-wait
           done
         shell: bash
 
