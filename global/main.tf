@@ -63,7 +63,7 @@ variable "created_by_tag" {
 
 # Creating locals based on variables:
 locals {
-  resource_group_name = var.project_name + "-" + var.environment + "-rg"
+  resource_group_name = "${var.project_name}-${var.environment}-rg"
 }
 
 # Generating resources:
