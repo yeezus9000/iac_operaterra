@@ -23,7 +23,6 @@ env:
   # STORAGE_ACCOUNT_CONTAINER: ${{ secrets.STORAGE_ACCOUNT_CONTAINER }}
   # RESOURCE_GROUP_NAME: ${{ secrets.RESOURCE_GROUP_NAME }}
   PROJECT_NAME: "akseles-operaterra"
-  RESOURCE_GROUP_NAME: "${{ env.PROJECT_NAME }}-rg-${{ github.ref_name }}"
 
 jobs:
   validate:
@@ -62,6 +61,9 @@ jobs:
   deploy:
     name: Terraform Global and Environment Deployments
     runs-on: ubuntu-latest
+
+    env:
+      RESOURCE_GROUP_NAME: "${{ env.PROJECT_NAME }}-rg-${{ github.ref_name }}"
 
     steps:
       - name: Checkout code
