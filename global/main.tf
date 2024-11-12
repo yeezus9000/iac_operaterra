@@ -10,6 +10,7 @@ variable "location" {
 variable "resource_group_name" {
   type        = string
   description = "Name of the resource group"
+  default = "splitte-bramseil"
 }
 
 resource "azurerm_resource_group" "rg" {
@@ -20,3 +21,5 @@ resource "azurerm_resource_group" "rg" {
 output "resource_group_name" {
   value = azurerm_resource_group.rg.name
 }
+
+# an edit
