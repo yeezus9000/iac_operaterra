@@ -76,9 +76,6 @@ jobs:
 
       - name: Terraform Apply (Prod - Requires Approval)
         if: github.ref_name == 'prod'
-        run: terraform apply -auto-approve tfplan
-        environment:
-          name: production
         run: |
           echo "Manual approval required for production deployment."
           echo "Review the Terraform plan before applying."
