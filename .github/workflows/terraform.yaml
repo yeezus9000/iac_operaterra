@@ -9,6 +9,7 @@ on:
       - dev
       - staging
       - prod
+  workflow_dispatch:  # Allows manual triggering from the GitHub Actions interface
 
 env:
   ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
