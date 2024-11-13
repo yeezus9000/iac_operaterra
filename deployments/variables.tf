@@ -94,16 +94,16 @@ variable "database_admin_password" {
   sensitive   = true
 }
 
-# # Networking variables
-# variable "address_space" {
-#   type    = list(string)
-#   default = ["10.0.0.0/16"]
-# }
+# Networking variables
+variable "address_space" {
+  type    = list(string)
+  default = ["10.0.0.0/16"]
+}
 
-# variable "app_subnet_prefix" {
-#   type    = string
-#   default = "10.0.1.0/24"
-# }
+variable "app_subnet_prefixes" {
+  type    = list(string)
+  default = ["10.1.1.0/24", "10.1.2.0/24"]
+}
 
 
 

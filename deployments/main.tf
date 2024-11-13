@@ -68,15 +68,14 @@ module "app_service" {
 #   sku_name                      = "Basic"
 # }
 
-# module "networking" {
-#   source = "../modules/networking"
-#   # These values will default to "Norway East" and other defaults unless overridden
-#   name_prefix         = local.name_prefix              # Defaults to "operaterra"
-#   location            = var.location                   # Defaults to "Norway East"
-#   resource_group_name = var.resource_group_name        # Defaults to "operaterra-network-rg"
-#   address_space       = ["10.1.0.0/16"]                # Optional: override if needed
-#   subnet_prefixes     = ["10.1.1.0/24", "10.1.2.0/24"] # Optional: override if needed
-# }
+module "networking" {
+  source              = "../modules/networking"
+  name_prefix         = local.name_prefix
+  location            = var.location
+  resource_group_name = local.resource_group_name
+  address_space       = var.address_space
+  subnet_prefixes     = var.app_subnet_prefixes
+}
 
 
 
