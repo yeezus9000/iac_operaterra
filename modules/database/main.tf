@@ -12,5 +12,5 @@ resource "azurerm_mssql_server" "sql_server" {
 resource "azurerm_mssql_database" "sql_db" {
   name      = "${var.name_prefix}-sqldb"
   server_id = azurerm_mssql_server.sql_server.id
-  collation = var.collation # Set collation as required
+  collation = var.collation
 }
