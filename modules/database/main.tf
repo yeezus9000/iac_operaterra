@@ -7,7 +7,6 @@ resource "azurerm_mssql_server" "sql_server" {
   # administrator_login_password  = var.admin_password
   public_network_access_enabled = var.public_network_access_enabled
   version                       = var.sql_version
-
 }
 
 # Define the Azure SQL Database

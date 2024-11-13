@@ -52,20 +52,21 @@ module "app_service" {
   sku_name = var.app_service_sku
 }
 
-module "database" {
-  source              = "../modules/database"
-  name_prefix         = local.name_prefix
-  location            = var.location
-  resource_group_name = local.resource_group_name
+# Database is not working, come back to it later. Issues with API "login"
+# module "database" {
+#   source              = "../modules/database"
+#   name_prefix         = local.name_prefix
+#   location            = var.location
+#   resource_group_name = local.resource_group_name
 
-  # SQL Server Credentials
-  admin_username = var.database_admin_username
-  admin_password = var.database_admin_password
+#   # SQL Server Credentials
+#   admin_username = var.database_admin_username
+#   admin_password = var.database_admin_password
 
-  # Additional configurations
-  public_network_access_enabled = false
-  sku_name                      = "Basic"
-}
+#   # Additional configurations
+#   public_network_access_enabled = false
+#   sku_name                      = "Basic"
+# }
 
 # module "networking" {
 #   source = "../modules/networking"
