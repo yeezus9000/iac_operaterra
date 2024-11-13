@@ -3,7 +3,7 @@ name: Terraform CI/CD
 on:
   pull_request:
     branches:
-      - '**'
+      - "**"
   push:
     branches:
       - dev
@@ -16,8 +16,10 @@ env:
   ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
   ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
   STORAGE_ACCOUNT_NAME: ${{ secrets.STORAGE_ACCOUNT_NAME }}
-  STORAGE_ACCOUNT_CONTAINER: ${{ secrets.STORAGE_ACCOUNT_CONTAINER }}
-  RESOURCE_GROUP_NAME: ${{ secrets.RESOURCE_GROUP_NAME }}
+  STORAGE_ACCOUNT_CONTAINER: ${{ secrets.STORAGE_ACCOUNT_CONTAINER || 'tfstate' }}
+  PROJECT_NAME: ${{ secrets.PROJECT_NAME || 'akseles-operaterra' }}
+  GLOBAL_RESOURCE_GROUP: ${{ secrets.GLOBAL_RESOURCE_GROUP ||'akseles-operaterra-global' }}
+  # Those three last ones can be saved to secrets, but are here prefilled (non-secret information) based on what should have been created running /global/main.tf through workflow or with default variable values
 
 jobs:
   validate:
@@ -33,6 +35,14 @@ jobs:
         with:
           terraform_wrapper: false
 
+      - name: Install TFLint
+        run: |
+          curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash
+
+      - name: Install TFSec
+        run: |
+          curl -s https://raw.githubusercontent.com/aquasecurity/tfsec/master/scripts/install_linux.sh | bash
+
       - name: Terraform Format
         run: terraform fmt -check
 
@@ -43,13 +53,13 @@ jobs:
         run: tflint
 
       - name: Tfsec (Security Check)
-        run: tfsec .
+        run: tfsec ./deployments
 
-  deploy:
-    name: Terraform Plan and Apply
+  deploy-non-prod:
+    name: Terraform Environment Deployment (Non-Prod)
     runs-on: ubuntu-latest
     needs: validate
-    if: github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/staging' || (github.ref == 'refs/heads/prod' && github.event_name == 'workflow_dispatch')
+    if: github.ref_name != 'prod'
 
     steps:
       - name: Checkout code
@@ -60,25 +70,37 @@ jobs:
         with:
           terraform_wrapper: false
 
-      - name: Terraform Init
-        run: terraform init -backend-config="storage_account_name=${{ env.STORAGE_ACCOUNT_NAME }}" \
-                            -backend-config="container_name=${{ env.STORAGE_ACCOUNT_CONTAINER }}" \
-                            -backend-config="key=${{ github.ref_name }}.terraform.tfstate" \
-                            -backend-config="resource_group_name=${{ env.RESOURCE_GROUP_NAME }}" \
-                            -backend-config="subscription_id=${{ env.ARM_SUBSCRIPTION_ID }}"
+      - name: Terraform Init (Non-prod)
+        run: terraform -chdir=deployments init -backend-config="storage_account_name=${{ env.STORAGE_ACCOUNT_NAME }}" -backend-config="container_name=${{ env.STORAGE_ACCOUNT_CONTAINER }}" -backend-config="key=${{ github.ref_name }}.terraform.tfstate" -backend-config="subscription_id=${{ env.ARM_SUBSCRIPTION_ID }}" -backend-config="resource_group_name=${{ env.GLOBAL_RESOURCE_GROUP }}"
 
-      - name: Terraform Plan
-        run: terraform plan -out=tfplan
+      - name: Terraform Plan (Non-prod)
+        run: terraform -chdir=deployments plan -var="subscription_id=${{ env.ARM_SUBSCRIPTION_ID }}" -var="tenant_id=${{ env.ARM_TENANT_ID }}" -var="client_id=${{ env.ARM_CLIENT_ID }}" -var="client_secret=${{ env.ARM_CLIENT_SECRET }}" -var="state_storage_account_name=${{ env.STORAGE_ACCOUNT_NAME }}" -var="state_container_name=${{ env.STORAGE_ACCOUNT_CONTAINER }}" -var="environment=${{ github.ref_name }}" -var="project_name=${{ env.PROJECT_NAME }}" -var="state_resource_group_name=${{ env.GLOBAL_RESOURCE_GROUP }}" -out=tfplan-${{ github.ref_name }}
 
       - name: Terraform Apply (Non-Prod)
-        if: github.ref_name != 'prod'
-        run: terraform apply -auto-approve tfplan
+        run: terraform -chdir=deployments apply -auto-approve tfplan-${{ github.ref_name }}
 
-      - name: Terraform Apply (Prod - Requires Approval)
-        if: github.ref_name == 'prod'
-        environment:
-          name: production
-          url: https://portal.azure.com/
-          reviewers: # specify reviewers for production
-            - github@estlan.net
-        run: terraform apply -auto-approve tfplan
+  deploy-prod:
+    name: Terraform Environment Deployment (Production)
+    runs-on: ubuntu-latest
+    needs: validate
+    if: github.ref_name == 'prod'
+    environment: prod # Specifies the environment with required reviewers
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_wrapper: false
+
+      - name: Terraform Init (Production)
+        run: terraform -chdir=deployments init -backend-config="storage_account_name=${{ env.STORAGE_ACCOUNT_NAME }}" -backend-config="container_name=${{ env.STORAGE_ACCOUNT_CONTAINER }}" -backend-config="key=${{ github.ref_name }}.terraform.tfstate" -backend-config="subscription_id=${{ env.ARM_SUBSCRIPTION_ID }}" -backend-config="resource_group_name=${{ env.GLOBAL_RESOURCE_GROUP }}"
+
+      - name: Terraform Plan (Production)
+        run: terraform -chdir=deployments plan -var="subscription_id=${{ env.ARM_SUBSCRIPTION_ID }}" -var="tenant_id=${{ env.ARM_TENANT_ID }}" -var="client_id=${{ env.ARM_CLIENT_ID }}" -var="client_secret=${{ env.ARM_CLIENT_SECRET }}" -var="state_storage_account_name=${{ env.STORAGE_ACCOUNT_NAME }}" -var="state_container_name=${{ env.STORAGE_ACCOUNT_CONTAINER }}" -var="environment=prod" -var="project_name=${{ env.PROJECT_NAME }}" -var="state_resource_group_name=${{ env.GLOBAL_RESOURCE_GROUP }}" -out=tfplan-prod
+
+      # Apply step for production with required manual approval
+      - name: Terraform Apply (Production)
+        run: terraform -chdir=deployments apply tfplan-prod
