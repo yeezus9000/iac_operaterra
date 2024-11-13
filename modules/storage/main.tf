@@ -1,6 +1,6 @@
 # Generate a random string for unique storage account name
 resource "random_string" "storage_suffix" {
-  length  = 2
+  length  = 2 # This is super short but in my specific case the name was getting too long to be deployed with length 4
   upper   = false
   special = false
 }

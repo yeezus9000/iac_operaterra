@@ -27,6 +27,7 @@ resource "azurerm_resource_group" "rg" {
   location = var.location
   tags = {
     created_by = var.created_by_tag
+    # This tag is only used to easily tear down the azure infrastructure, used in development by me (see the .github/delete_resources.yaml workflow)
   }
 }
 
@@ -92,53 +93,3 @@ module "load_balancer" {
   health_probe_request_path = var.health_probe_request_path
   subnet_id                 = module.networking.load_balancer_subnet_id
 }
-
-# module "database" {
-#   source              = "../modules/database"
-#   name_prefix         = local.name_prefix
-#   location            = var.location
-#   resource_group_name = azurerm_resource_group.rg.name
-
-#   # SQL Server Credentials
-#   admin_username = var.database_admin_username
-#   admin_password = var.database_admin_password
-
-#   # Additional configurations
-#   public_network_access_enabled = false
-#   sku_name                      = "Basic"
-# }
-
-
-# # Storage Module
-# module "storage" {
-#   source              = "../modules/storage"
-#   name_prefix         = local.name_prefix
-#   location            = var.location
-#   resource_group_name = azurerm_resource_group.rg.name
-#   account_tier          = var.account_tier
-#   replication_type      = var.replication_type
-#   container_name        = var.container_name
-#   container_access_type = "private"
-# }
-
-# # Load Balancer Module
-# module "load_balancer" {
-#   source              = "../modules/load_balancer"
-#   name_prefix         = local.name_prefix
-#   location            = var.location
-#   resource_group_name = azurerm_resource_group.rg.name
-
-#   frontend_port             = var.frontend_port
-#   backend_port              = var.backend_port
-#   health_probe_port         = var.health_probe_port
-#   health_probe_request_path = var.health_probe_request_path
-# }
-
-# module "app_service" {
-#   source              = "../modules/app_service"
-#   name_prefix         = local.name_prefix
-#   location            = var.location
-#   resource_group_name = azurerm_resource_group.rg.name
-#   os_type  = var.app_service_os
-#   sku_name = var.app_service_sku
-# }

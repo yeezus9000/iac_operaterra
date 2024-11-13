@@ -12,8 +12,3 @@ output "blob_container_name" {
   description = "Name of the Blob Container"
   value       = azurerm_storage_container.blob_container.name
 }
-
-# output "blob_container_url" {
-#   description = "URL for the blob container"
-#   value       = azurerm_storage_container.blob_container.URL
-# }
