@@ -8,14 +8,11 @@ resource "azurerm_service_plan" "app_plan" {
 }
 
 # Define the App Service (Web App)
-resource "azurerm_windows_web_app" "app" {
-  site_config {
-    
-  }
+resource "azurerm_app_service" "app" {
   name                = "${var.name_prefix}-app"
   location            = var.location
   resource_group_name = var.resource_group_name
-  service_plan_id = azurerm_service_plan.app_plan.id
+  app_service_plan_id = azurerm_service_plan.app_plan.id
 
   # Environment-specific application settings
   app_settings = merge(
