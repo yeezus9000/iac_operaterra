@@ -62,8 +62,8 @@ variable "created_by_tag" {
 
 variable "string_to_hash" {
   description = "Not in use, see documentation"
-  type    = string
-  default = "this is a random string for hashing purposes"
+  type        = string
+  default     = "this is a random string for hashing purposes"
 }
 
 # App Service variables
@@ -93,17 +93,17 @@ variable "app_service_os" {
 #   default = "10.0.1.0/24"
 # }
 
-# # Database variables
-# variable "database_admin_username" {
-#   description = "Admin username for the MySQL database"
-#   type        = string
-# }
+# Database variables
+variable "database_admin_username" {
+  description = "Admin username for the MySQL database"
+  type        = string
+}
 
-# variable "database_admin_password" {
-#   description = "Admin password for the MySQL database"
-#   type        = string
-#   sensitive   = true
-# }
+variable "database_admin_password" {
+  description = "Admin password for the MySQL database"
+  type        = string
+  sensitive   = true
+}
 
 # # Storage variables
 # variable "account_tier" {
