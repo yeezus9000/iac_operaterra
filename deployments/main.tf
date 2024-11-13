@@ -20,10 +20,11 @@ terraform {
 locals {
   suffix = substr(sha256(var.string_to_hash), 0, 4)
   # See comment in /global/main.tf about this pseudo-random suffix (it's not really in use)
+  resource_group_name = "${var.project_name}-${var.environment}-rg"
 }
 
 resource "azurerm_resource_group" "rg" {
-  name     = "akseles-test-test-test"
+  name     = local.resource_group_name
   location = var.location
   tags = {
     created_by = var.created_by_tag
