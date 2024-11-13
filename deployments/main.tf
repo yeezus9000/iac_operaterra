@@ -21,7 +21,7 @@ locals {
   suffix = substr(sha256(var.string_to_hash), 0, 4)
 }
 
-output "seudo_random" {
+output "pseudo_random" {
   value = local.suffix
 }
 

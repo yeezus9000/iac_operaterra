@@ -44,7 +44,7 @@ resource "azurerm_resource_group" "global_rg" {
   location = var.location
 }
 
-# Generate a seudo-random suffix for globally unique storage account name that can be recreated with same seed
+# Generate a pseudo-random suffix for globally unique storage account name that can be recreated with same seed
 variable "string_to_hash" {
   type    = string
   default = "this is a random string for hashing purposes"
