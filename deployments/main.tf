@@ -84,7 +84,6 @@ module "storage" {
   name_prefix         = local.name_prefix
   location            = var.location
   resource_group_name = local.resource_group_name
-
   # Storage configuration
   account_tier          = var.account_tier
   replication_type      = var.replication_type
