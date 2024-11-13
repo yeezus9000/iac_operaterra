@@ -14,7 +14,7 @@ variable "resource_group_name" {
 }
 
 variable "os_type" {
-  description = "Operating system for the App Service)"
+  description = "Operating system for the App Service"
   type        = string
 }
 
@@ -22,9 +22,3 @@ variable "sku_name" {
   description = "SKU name for the App Service"
   type        = string
 }
-
-# variable "additional_app_settings" {
-#   description = "Additional application settings to configure in the App Service"
-#   type        = map(string)
-#   default     = {} # Allows for additional settings if needed
-# }

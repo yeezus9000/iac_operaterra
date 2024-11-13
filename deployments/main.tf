@@ -50,11 +50,21 @@ module "app_service" {
 
   os_type  = var.app_service_os
   sku_name = var.app_service_sku
+}
 
-  # # Additional App Service settings
-  # additional_app_settings = {
-  #   "APPINSIGHTS_INSTRUMENTATIONKEY" = var.app_insights_key
-  # }
+module "database" {
+  source              = "../modules/database"
+  name_prefix         = local.name_prefix
+  location            = var.location
+  resource_group_name = var.resource_group_name
+
+  # SQL Server Credentials
+  admin_username = var.db_admin_username
+  admin_password = var.db_admin_password
+
+  # Additional configurations
+  public_network_access_enabled = false
+  sku_name                      = "Basic"
 }
 
 # module "networking" {
@@ -68,20 +78,7 @@ module "app_service" {
 # }
 
 
-# module "database" {
-#   source              = "../modules/database"
-#   name_prefix         = local.name_prefix
-#   location            = var.location
-#   resource_group_name = var.resource_group_name
 
-#   # SQL Server Credentials
-#   admin_username = var.db_admin_username
-#   admin_password = var.db_admin_password
-
-#   # Additional configurations
-#   public_network_access_enabled = false
-#   sku_name                      = "Basic"
-# }
 
 # # Storage Module
 # module "storage" {

@@ -1,16 +1,21 @@
 # terraform.tfvars.dev
 
-environment = "dev"
+# environment = ""
 # resource_group_name = ""
-# rg name is passed in thorugh workflow, only overwrite this for testing pruposes
+# env and rg name is passed in thorugh workflow, only overwrite this for testing pruposes
+
+# App Service
+app_service_plan_tier = "B1"
+
+# Database
+# sku_name = ""
+# version = ""
+# only overwrite for testing purposes
 
 # Networking
 address_space     = ["10.0.0.0/16"]
 app_subnet_prefix = "10.0.1.0/24"
 subnet_prefixes     = ["10.0.1.0/24", "10.0.2.0/24"]
-
-# App Service
-app_service_plan_tier = "B1"
 
 # Storage
 account_tier        = "Standard"

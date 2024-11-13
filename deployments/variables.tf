@@ -82,17 +82,6 @@ variable "app_service_os" {
   default = "Windows"
 }
 
-# # Networking variables
-# variable "address_space" {
-#   type    = list(string)
-#   default = ["10.0.0.0/16"]
-# }
-
-# variable "app_subnet_prefix" {
-#   type    = string
-#   default = "10.0.1.0/24"
-# }
-
 # Database variables
 variable "database_admin_username" {
   description = "Admin username for the MySQL database"
@@ -104,6 +93,19 @@ variable "database_admin_password" {
   type        = string
   sensitive   = true
 }
+
+# # Networking variables
+# variable "address_space" {
+#   type    = list(string)
+#   default = ["10.0.0.0/16"]
+# }
+
+# variable "app_subnet_prefix" {
+#   type    = string
+#   default = "10.0.1.0/24"
+# }
+
+
 
 # # Storage variables
 # variable "account_tier" {
