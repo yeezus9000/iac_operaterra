@@ -17,9 +17,9 @@ env:
   ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
   ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
   STORAGE_ACCOUNT_NAME: ${{ secrets.STORAGE_ACCOUNT_NAME }}
-  STORAGE_ACCOUNT_CONTAINER: ${{ secrets.STORAGE_ACCOUNT_CONTAINER || "tfstate" }}
-  PROJECT_NAME: ${{ secrets.PROJECT_NAME || "akseles-operaterra" }}
-  GLOBAL_RESOURCE_GROUP: ${{ secrets.GLOBAL_RESOURCE_GROUP ||"akseles-operaterra-global" }}
+  STORAGE_ACCOUNT_CONTAINER: ${{ secrets.STORAGE_ACCOUNT_CONTAINER || 'tfstate' }}
+  PROJECT_NAME: ${{ secrets.PROJECT_NAME || 'akseles-operaterra' }}
+  GLOBAL_RESOURCE_GROUP: ${{ secrets.GLOBAL_RESOURCE_GROUP ||'akseles-operaterra-global' }}
   # Those three last ones can be saved to secrets, but are here prefilled (non-secret information) based on what should have been created running /global/main.tf
 
 jobs:
