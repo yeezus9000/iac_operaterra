@@ -53,23 +53,22 @@ variable "string_to_hash" {
 locals {
   suffix = substr(sha256(var.string_to_hash), 0, 4)
 }
+# I didn't have time to finalize this psuedo-random implementation, but leaving it unused here (and in /deployments) in the code for documentation of "where I'd keep going if I spent more time on this"
 
 # Create the storage account for Terraform remote state
+resource "random_string" "suffix" {
+  length  = 4
+  special = false
+  upper   = false
+}
+
 resource "azurerm_storage_account" "state_storage_account" {
-  name                     = "operaterrastate${local.suffix}"
+  name                     = "operaterrastate${random_string.suffix.result}"
   resource_group_name      = azurerm_resource_group.global_rg.name
   location                 = var.location
   account_tier             = "Standard"
   account_replication_type = "LRS"
 }
-
-
-
-# resource "random_string" "suffix" {
-#   length  = 4
-#   special = false
-#   upper   = false
-# }
 
 # Create the container for Terraform state
 resource "azurerm_storage_container" "state_container" {

@@ -21,11 +21,6 @@ locals {
   suffix = substr(sha256(var.string_to_hash), 0, 4)
 }
 
-output "pseudo_random" {
-  value = local.suffix
-}
-
-
 # resource "azurerm_resource_group" "rg" {
 #   name     = "akseles-test-test-test"
 #   location = var.location
