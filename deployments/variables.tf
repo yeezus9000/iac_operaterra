@@ -59,3 +59,8 @@ variable "created_by_tag" {
   type        = string
   default     = "akseles"
 }
+
+variable "string_to_hash" {
+  type    = string
+  default = "this is a random string for hashing purposes"
+}

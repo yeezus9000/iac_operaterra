@@ -53,7 +53,16 @@ resource "azurerm_storage_account" "state_storage_account" {
   account_replication_type = "LRS"
 }
 
-# Generate a random suffix for globally unique storage account name
+# Generate a seudo-random suffix for globally unique storage account name that can be recreated with same seed
+variable "string_to_hash" {
+  type    = string
+  default = "this is a random string for hashing purposes"
+}
+
+locals {
+  suffix = substr(base64sha256(var.string_to_hash), 0, 4)
+}
+
 resource "random_string" "suffix" {
   length  = 4
   special = false

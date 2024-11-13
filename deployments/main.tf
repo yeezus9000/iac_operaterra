@@ -17,24 +17,14 @@ terraform {
   }
 }
 
-
-# Access the resource group details from the global state
 locals {
-
+  suffix = substr(base64sha256(var.string_to_hash), 0, 4)
 }
 
-variable "string" {
-  type    = string
-  default = "test"
+output "seudo_random" {
+  value = local.suffix
 }
 
-locals {
-  hash = base64sha256(var.string)
-}
-
-output "hash" {
-  value = local.hash
-}
 
 # resource "azurerm_resource_group" "rg" {
 #   name     = "akseles-test-test-test"
