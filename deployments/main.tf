@@ -23,13 +23,13 @@ locals {
 
 }
 
-# resource "azurerm_resource_group" "rg" {
-#   name     = "akseles-test-test-test"
-#   location = local.location
-#   tags = {
-#     created_by = local.created_by_tag
-#   }
-# }
+resource "azurerm_resource_group" "rg" {
+  name     = "akseles-test-test-test"
+  location = var.location
+  tags = {
+    created_by = var.created_by_tag
+  }
+}
 
 # module "networking" {
 #   source              = "../modules/networking"
