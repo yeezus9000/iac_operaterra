@@ -1,5 +1,3 @@
-# # global/main.tf
-
 # global/main.tf
 
 provider "azurerm" {
