@@ -3,7 +3,7 @@ output "load_balancer_id" {
   value       = azurerm_lb.load_balancer.id
 }
 
-output "load_balancer_ip" {
+output "load_balancer_public_ip" {
   description = "Public IP address of the Load Balancer"
   value       = azurerm_public_ip.lb_public_ip.ip_address
 }
