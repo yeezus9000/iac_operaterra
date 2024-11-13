@@ -8,6 +8,15 @@ locals {
   state_key = "${var.environment}.terraform.tfstate" # Matches the naming convention in GitHub Actions
 }
 
+terraform {
+  backend "azurerm" {
+    resource_group_name  = var.state_resource_group
+    storage_account_name = var.state_storage_account_name
+    container_name       = var.state_container_name
+    key                  = local.state_key # Use the same key as in /global
+  }
+}
+
 # Import the remote state from the global deployment
 data "terraform_remote_state" "global" {
   backend = "azurerm"
@@ -32,13 +41,13 @@ locals {
   subscription_id            = data.terraform_remote_state.global.outputs.subscription_id
 }
 
-# resource "azurerm_resource_group" "rg" {
-#   name     = "akseles-test-test-test"
-#   location = local.location
-#   tags = {
-#     created_by = local.created_by_tag
-#   }
-# }
+resource "azurerm_resource_group" "rg" {
+  name     = "akseles-test-test-test"
+  location = local.location
+  tags = {
+    created_by = local.created_by_tag
+  }
+}
 
 # module "networking" {
 #   source              = "../modules/networking"

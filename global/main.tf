@@ -4,13 +4,16 @@ provider "azurerm" {
   features {}
 }
 
+locals {
+  state_key = "${var.environment}.terraform.tfstate" # Matches the naming convention in GitHub Actions
+}
 
 terraform {
   backend "azurerm" {
     resource_group_name  = var.state_resource_group
     storage_account_name = var.state_storage_account_name
     container_name       = var.state_container_name
-    key                  = "${var.environment}.terraform.tfstate"
+    key                  = local.state_key
   }
 }
 
