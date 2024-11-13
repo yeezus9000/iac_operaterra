@@ -56,11 +56,11 @@ module "database" {
   source              = "../modules/database"
   name_prefix         = local.name_prefix
   location            = var.location
-  resource_group_name = var.resource_group_name
+  resource_group_name = local.resource_group_name
 
   # SQL Server Credentials
-  admin_username = var.db_admin_username
-  admin_password = var.db_admin_password
+  admin_username = var.database_admin_username
+  admin_password = var.database_admin_password
 
   # Additional configurations
   public_network_access_enabled = false
