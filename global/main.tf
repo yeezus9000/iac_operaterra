@@ -54,6 +54,7 @@ locals {
   suffix = substr(sha256(var.string_to_hash), 0, 4)
 }
 # I didn't have time to finalize this psuedo-random implementation, but leaving it unused here (and in /deployments) in the code for documentation of "where I'd keep going if I spent more time on this"
+# It would have allowed us to save a consistent but unique storage account for saving state, without having the save it as a secret somwhere, and rather let the function always return the same output.
 
 # Create the storage account for Terraform remote state
 resource "random_string" "suffix" {
