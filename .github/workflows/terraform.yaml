@@ -14,8 +14,10 @@ env:
   ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET || '' }}
   STORAGE_ACCOUNT_NAME: ${{ secrets.STORAGE_ACCOUNT_NAME || '' }}
   STORAGE_ACCOUNT_CONTAINER: ${{ secrets.STORAGE_ACCOUNT_CONTAINER || 'tfstate' }}
-  PROJECT_NAME: ${{ secrets.PROJECT_NAME || 'akseles-operaterra' }}
+  PROJECT_NAME: ${{ secrets.PROJECT_NAME || 'ae-ot' }}
+  # Formerly "akseles-operaterra" but it was too long for storage accounts
   GLOBAL_RESOURCE_GROUP: ${{ secrets.GLOBAL_RESOURCE_GROUP || 'akseles-operaterra-global' }}
+  # ^ see! I named this before the length became an issue!
   # Those three last ones can be saved to secrets, but are here prefilled (non-secret information) based on what should have been created running /global/main.tf through workflow or with default variable values
   DATABASE_ADMIN_USER: ${{ secrets.DATABASE_ADMIN_USER || '4dm1n157r470r' }}
   DATABASE_ADMIN_PASSWORD: ${{ secrets.DATABASE_ADMIN_PASSWORD || '4-v3ry-53cr37-p455w0rd' }}
