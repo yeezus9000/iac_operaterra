@@ -6,6 +6,27 @@ provider "azurerm" {
   features {}
 }
 
+# Define the Azure authentication variables
+variable "subscription_id" {
+  type        = string
+  description = "Azure Subscription ID"
+}
+
+variable "tenant_id" {
+  type        = string
+  description = "Azure Tenant ID"
+}
+
+variable "client_id" {
+  type        = string
+  description = "Azure Client ID"
+}
+
+variable "client_secret" {
+  type        = string
+  description = "Azure Client Secret"
+}
+
 # Variables for the global resources
 variable "global_resource_group_name" {
   description = "Name of the resource group for global resources"
