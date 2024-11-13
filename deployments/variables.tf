@@ -1,5 +1,7 @@
 # /deployments/variables.tf
 
+# State and env variables:
+
 variable "state_storage_account_name" {
   description = "Storage account name for Terraform state"
   type        = string
@@ -18,4 +20,42 @@ variable "state_resource_group_name" {
 variable "environment" {
   description = "Deployment environment (e.g., dev, staging, prod)"
   type        = string
+}
+
+# Super-secret azure variables:
+variable "subscription_id" {
+  type        = string
+  description = "Azure Subscription ID"
+}
+
+variable "tenant_id" {
+  type        = string
+  description = "Azure Tenant ID"
+}
+
+variable "client_id" {
+  type        = string
+  description = "Azure Client ID"
+}
+
+variable "client_secret" {
+  type        = string
+  description = "Azure Client Secret"
+}
+
+# Other:
+variable "project_name" {
+  type        = string
+  description = "Name of project"
+}
+
+variable "location" {
+  type    = string
+  default = "North Europe"
+}
+
+variable "created_by_tag" {
+  description = "Unique identifier tag for resources created by this App ID (right now I use it to easily destroy my own stuff, but can be substituted for some arbitrary tag for whatever tracking the 'Company' needs)"
+  type        = string
+  default     = "akseles"
 }
