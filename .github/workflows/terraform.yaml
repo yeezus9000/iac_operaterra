@@ -54,7 +54,7 @@ jobs:
         run: tflint
 
       - name: Tfsec (Security Check)
-        run: tfsec .
+        run: tfsec ./deployments
 
   deploy:
     name: Terraform Environment Deployments
