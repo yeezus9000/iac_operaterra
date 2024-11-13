@@ -5,7 +5,7 @@ provider "azurerm" {
 }
 
 locals {
-  state_key = "${var.environment}.terraform.tfstate" # Matches the naming convention in GitHub Actions
+  state_key = "${var.environment}.terraform.tfstate" # Matches the naming convention in GitHub actions CI/CD workflow
 }
 
 terraform {
@@ -13,14 +13,13 @@ terraform {
     resource_group_name  = var.state_resource_group_name
     storage_account_name = var.state_storage_account_name
     container_name       = var.state_container_name
-    key                  = local.state_key # Use the same key as in /global
+    key                  = local.state_key
   }
 }
 
 locals {
-  suffix = substr(sha256(var.string_to_hash), 0, 4)
-  # See comment in /global/main.tf about this pseudo-random suffix (it's not really in use)
-  resource_group_name = "${var.project_name}-${var.environment}-rg"
+  name_prefix         = "${var.project_name}-${var.environment}"
+  resource_group_name = "${local.name_prefix}-rg"
 }
 
 resource "azurerm_resource_group" "rg" {
@@ -28,36 +27,69 @@ resource "azurerm_resource_group" "rg" {
   location = var.location
   tags = {
     created_by = var.created_by_tag
+    # This tag is only used to easily tear down the azure infrastructure, used in development by me (see the .github/delete_resources.yaml workflow)
   }
 }
 
-# module "networking" {
-#   source              = "../modules/networking"
-#   project_name        = local.project_name
-#   location            = local.location
-#   resource_group_name = local.resource_group_name
-#   resource_group_id   = local.resource_group_id
-#   environment         = var.environment
-# }
+module "networking" {
+  source              = "../modules/networking"
+  name_prefix         = local.name_prefix
+  location            = var.location
+  resource_group_name = azurerm_resource_group.rg.name
+  address_space       = var.address_space
+  subnet_prefixes     = var.subnet_prefixes
+}
 
-# Repeat for other modules as needed
-# module "app_service" {
-#   source              = "../modules/app_service"
-#   resource_group_name = local.resource_group_name
-#   resource_group_id   = local.resource_group_id
-#   environment         = var.environment
-# }
+# App Service module
+module "app_service" {
+  source              = "../modules/app_service"
+  name_prefix         = local.name_prefix
+  location            = var.location
+  resource_group_name = azurerm_resource_group.rg.name
 
-# module "database" {
-#   source              = "../modules/database"
-#   resource_group_name = local.resource_group_name
-#   resource_group_id   = local.resource_group_id
-#   environment         = var.environment
-# }
+  os_type          = var.app_service_os
+  sku_name         = var.app_service_sku
+  vnet_integration = true
+  subnet_id        = module.networking.app_service_subnet_id
+}
 
-# module "storage" {
-#   source              = "../modules/storage"
-#   resource_group_name = local.resource_group_name
-#   resource_group_id   = local.resource_group_id
-#   environment         = var.environment
-# }
+# Database module
+module "database" {
+  source              = "../modules/database"
+  name_prefix         = local.name_prefix
+  location            = var.location
+  resource_group_name = azurerm_resource_group.rg.name
+
+  admin_username                = var.database_admin_username
+  admin_password                = var.database_admin_password
+  public_network_access_enabled = false
+  sku_name                      = "Basic"
+  subnet_id                     = module.networking.database_subnet_id
+}
+
+# Storage module
+module "storage" {
+  source              = "../modules/storage"
+  name_prefix         = local.name_prefix
+  location            = var.location
+  resource_group_name = azurerm_resource_group.rg.name
+
+  account_tier          = var.account_tier
+  replication_type      = var.replication_type
+  container_name        = var.container_name
+  container_access_type = "private"
+  subnet_id             = module.networking.storage_subnet_id
+}
+
+# Load Balancer module
+module "load_balancer" {
+  source                    = "../modules/load_balancer"
+  name_prefix               = local.name_prefix
+  location                  = var.location
+  resource_group_name       = azurerm_resource_group.rg.name
+  frontend_port             = var.frontend_port
+  backend_port              = var.backend_port
+  health_probe_port         = var.health_probe_port
+  health_probe_request_path = var.health_probe_request_path
+  subnet_id                 = module.networking.load_balancer_subnet_id
+}

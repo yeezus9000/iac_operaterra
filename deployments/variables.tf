@@ -60,7 +60,77 @@ variable "created_by_tag" {
   default     = "akseles"
 }
 
-variable "string_to_hash" {
+# App Service variables
+variable "app_service_plan_tier" {
   type    = string
-  default = "this is a random string for hashing purposes"
+  default = "B1"
+}
+
+variable "app_service_sku" {
+  type    = string
+  default = "S1"
+}
+
+variable "app_service_os" {
+  type    = string
+  default = "Windows"
+}
+
+# Database variables
+variable "database_admin_username" {
+  description = "Admin username for the MySQL database"
+  type        = string
+}
+
+variable "database_admin_password" {
+  description = "Admin password for the MySQL database"
+  type        = string
+  sensitive   = true
+}
+
+# Networking variables
+variable "address_space" {
+  type    = list(string)
+  default = ["10.0.0.0/8"]
+}
+
+variable "subnet_prefixes" {
+  type    = list(string)
+  default = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24", "10.0.4.0/24"]
+}
+
+# Storage variables
+variable "account_tier" {
+  type    = string
+  default = "Standard"
+}
+
+variable "replication_type" {
+  type    = string
+  default = "LRS"
+}
+
+variable "container_name" {
+  type = string
+}
+
+# Load Balancer variables
+variable "frontend_port" {
+  type    = number
+  default = 80
+}
+
+variable "backend_port" {
+  type    = number
+  default = 80
+}
+
+variable "health_probe_port" {
+  type    = number
+  default = 80
+}
+
+variable "health_probe_request_path" {
+  type    = string
+  default = "/"
 }

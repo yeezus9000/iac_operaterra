@@ -1,12 +1,7 @@
 # modules/networking/variables.tf
 
-variable "project_name" {
-  description = "Project name for resource naming."
-  type        = string
-}
-
-variable "environment" {
-  description = "Deployment environment (e.g., dev, staging, prod)."
+variable "name_prefix" {
+  description = "Prefix for naming resources uniformly across environments"
   type        = string
 }
 
@@ -21,14 +16,12 @@ variable "resource_group_name" {
   type        = string
 }
 
-variable "resource_group_id" {
-  description = "ID of the resource group where resources will be created"
-  type        = number
+variable "address_space" {
+  description = "The address space for the Virtual Network (VNet)"
+  type        = list(string)
 }
 
-# Project name to ensure unique and consistent resource naming
-variable "project_name" {
-  description = "Project name used for naming resources consistently across modules."
-  type        = string
+variable "subnet_prefixes" {
+  description = "List of address prefixes for each subnet"
+  type        = list(string)
 }
-

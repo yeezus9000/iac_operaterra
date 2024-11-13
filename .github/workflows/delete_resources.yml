@@ -1,14 +1,14 @@
 name: Azure Resource Cleanup
 
 on:
-  workflow_dispatch:  # Allows manual triggering from the GitHub Actions interface
+  workflow_dispatch: # Allows manual triggering from the GitHub Actions interface
 
 env:
   ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
   ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
   ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
   ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
-  CREATED_BY_TAG: "akseles"  # Tag value used to identify your resources
+  CREATED_BY_TAG: "akseles"
 
 jobs:
   cleanup:
@@ -22,8 +22,7 @@ jobs:
             -u ${{ env.ARM_CLIENT_ID }} \
             -p ${{ env.ARM_CLIENT_SECRET }} \
             --tenant ${{ env.ARM_TENANT_ID }}
-        
-      # Step 1: List Resource Groups with the Unique Tag
+
       - name: List Resource Groups with Tag
         id: list_rg
         run: |
@@ -32,7 +31,6 @@ jobs:
           echo "$RESOURCE_GROUPS"
           echo "RESOURCE_GROUPS=$RESOURCE_GROUPS" >> $GITHUB_ENV
 
-      # Step 2: Delete Resource Groups Matching the Tag
       - name: Delete Resource Groups
         if: env.RESOURCE_GROUPS != ''
         run: |
@@ -44,7 +42,6 @@ jobs:
           done
         shell: bash
 
-      # Optional Step: Delete Tagged Resources Individually if Not in Resource Groups
       - name: Delete Other Tagged Resources (Optional)
         run: |
           echo "Deleting all resources with tag created_by=${{ env.CREATED_BY_TAG }} in subscription."
