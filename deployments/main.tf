@@ -18,7 +18,7 @@ terraform {
 }
 
 locals {
-  suffix = substr(base64sha256(var.string_to_hash), 0, 4)
+  suffix = substr(sha256(var.string_to_hash), 0, 4)
 }
 
 output "seudo_random" {

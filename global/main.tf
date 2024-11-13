@@ -44,15 +44,6 @@ resource "azurerm_resource_group" "global_rg" {
   location = var.location
 }
 
-# Create the storage account for Terraform remote state
-resource "azurerm_storage_account" "state_storage_account" {
-  name                     = "operaterrastate${random_string.suffix.result}"
-  resource_group_name      = azurerm_resource_group.global_rg.name
-  location                 = var.location
-  account_tier             = "Standard"
-  account_replication_type = "LRS"
-}
-
 # Generate a seudo-random suffix for globally unique storage account name that can be recreated with same seed
 variable "string_to_hash" {
   type    = string
@@ -60,14 +51,25 @@ variable "string_to_hash" {
 }
 
 locals {
-  suffix = substr(base64sha256(var.string_to_hash), 0, 4)
+  suffix = substr(sha256(var.string_to_hash), 0, 4)
 }
 
-resource "random_string" "suffix" {
-  length  = 4
-  special = false
-  upper   = false
+# Create the storage account for Terraform remote state
+resource "azurerm_storage_account" "state_storage_account" {
+  name                     = "operaterrastate${local.suffix}"
+  resource_group_name      = azurerm_resource_group.global_rg.name
+  location                 = var.location
+  account_tier             = "Standard"
+  account_replication_type = "LRS"
 }
+
+
+
+# resource "random_string" "suffix" {
+#   length  = 4
+#   special = false
+#   upper   = false
+# }
 
 # Create the container for Terraform state
 resource "azurerm_storage_container" "state_container" {
