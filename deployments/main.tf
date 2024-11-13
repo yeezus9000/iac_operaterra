@@ -19,6 +19,7 @@ terraform {
 
 locals {
   suffix = substr(sha256(var.string_to_hash), 0, 4)
+  # See comment in /global/main.tf about this pseudo-random suffix (it's not really in use)
 }
 
 # resource "azurerm_resource_group" "rg" {
