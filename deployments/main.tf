@@ -23,6 +23,15 @@ locals {
 
 }
 
+variable "hash" {
+  type    = string
+  default = base64sha256("akseles")
+}
+
+output "hash" {
+  value = var.hash
+}
+
 # resource "azurerm_resource_group" "rg" {
 #   name     = "akseles-test-test-test"
 #   location = var.location
