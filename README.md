@@ -14,3 +14,7 @@ Forklaring:
 * /.github/workflows/terraform.yaml er CI/CD workflowen som trigger på push/pull/merge, og leser hvilken branch man sitter i og lager riktige variabler for å deploye riktig. Dette lagres som en state i en uavhengig resource group i Azure, så det vil være consistent videre hvilke ressurser som allerede er opprettet.
 <!-- Memo til meg selv: rydd opp i den filen den ser bomba ut og mangler funksjonaliteten vi slettet for mange timer siden -->
 * Workflowen kjører /global/main.tf, som
+
+
+
+![alt text](image-2.png)
