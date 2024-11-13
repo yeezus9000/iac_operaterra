@@ -78,21 +78,19 @@ module "networking" {
 }
 
 
+# Storage Module
+module "storage" {
+  source              = "../modules/storage"
+  name_prefix         = local.name_prefix
+  location            = var.location
+  resource_group_name = local.resource_group_name
 
-
-# # Storage Module
-# module "storage" {
-#   source              = "../modules/storage"
-#   name_prefix         = local.name_prefix
-#   location            = var.location
-#   resource_group_name = var.resource_group_name
-
-#   # Storage configuration
-#   account_tier          = "Standard"
-#   replication_type      = "LRS"
-#   container_name        = "product-images"
-#   container_access_type = "private"
-# }
+  # Storage configuration
+  account_tier          = var.account_tier
+  replication_type      = var.replication_type
+  container_name        = "product-images"
+  container_access_type = "private"
+}
 
 # # Load Balancer Module
 # module "load_balancer" {

@@ -14,9 +14,9 @@ app_service_plan_tier = "B1"
 # only overwrite for testing purposes
 
 # Networking
-address_space     = ["10.0.0.0/16"]
-app_subnet_prefix = "10.0.1.0/24"
-subnet_prefixes     = ["10.0.1.0/24", "10.0.2.0/24"]
+# address_space     = ["10.0.0.0/16"]
+# subnet_prefixes     = ["10.0.1.0/24", "10.0.2.0/24"]
+# only overwrite for testing purposes
 
 # Storage
 account_tier        = "Standard"

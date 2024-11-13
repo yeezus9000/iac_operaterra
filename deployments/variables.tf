@@ -105,18 +105,16 @@ variable "app_subnet_prefixes" {
   default = ["10.0.1.0/24", "10.0.2.0/24"]
 }
 
+# Storage variables
+variable "account_tier" {
+  type    = string
+  default = "Standard"
+}
 
-
-# # Storage variables
-# variable "account_tier" {
-#   type    = string
-#   default = "Standard"
-# }
-
-# variable "replication_type" {
-#   type    = string
-#   default = "LRS"
-# }
+variable "replication_type" {
+  type    = string
+  default = "LRS"
+}
 
 # # Load Balancer variables
 # variable "frontend_port" {
