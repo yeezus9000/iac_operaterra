@@ -61,6 +61,89 @@ variable "created_by_tag" {
 }
 
 variable "string_to_hash" {
+  description = "Not in use, see documentation"
   type    = string
   default = "this is a random string for hashing purposes"
 }
+
+# App Service variables
+variable "app_service_plan_tier" {
+  type    = string
+  default = "B1"
+}
+
+variable "app_service_sku" {
+  type    = string
+  default = "S1"
+}
+
+variable "app_service_os" {
+  type    = string
+  default = "Windows"
+}
+
+# # Networking variables
+# variable "address_space" {
+#   type    = list(string)
+#   default = ["10.0.0.0/16"]
+# }
+
+# variable "app_subnet_prefix" {
+#   type    = string
+#   default = "10.0.1.0/24"
+# }
+
+# # Database variables
+# variable "database_admin_username" {
+#   description = "Admin username for the MySQL database"
+#   type        = string
+# }
+
+# variable "database_admin_password" {
+#   description = "Admin password for the MySQL database"
+#   type        = string
+#   sensitive   = true
+# }
+
+# # Storage variables
+# variable "account_tier" {
+#   type    = string
+#   default = "Standard"
+# }
+
+# variable "replication_type" {
+#   type    = string
+#   default = "LRS"
+# }
+
+# # Load Balancer variables
+# variable "frontend_port" {
+#   type    = number
+#   default = 80
+# }
+
+# variable "backend_port" {
+#   type    = number
+#   default = 80
+# }
+
+# variable "probe_port" {
+#   type    = number
+#   default = 80
+# }
+
+# variable "probe_path" {
+#   type    = string
+#   default = "/"
+# }
+
+# variable "db_admin_username" {
+#   description = "The admin username for the database"
+#   type        = string
+# }
+
+# variable "db_admin_password" {
+#   description = "The admin password for the database"
+#   type        = string
+# }
+

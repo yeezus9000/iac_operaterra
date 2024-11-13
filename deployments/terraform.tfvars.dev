@@ -1,0 +1,25 @@
+# terraform.tfvars.dev
+
+environment = "dev"
+# resource_group_name = ""
+# rg name is passed in thorugh workflow, only overwrite this for testing pruposes
+
+# Networking
+address_space     = ["10.0.0.0/16"]
+app_subnet_prefix = "10.0.1.0/24"
+subnet_prefixes     = ["10.0.1.0/24", "10.0.2.0/24"]
+
+# App Service
+app_service_plan_tier = "B1"
+
+# Storage
+account_tier        = "Standard"
+replication_type    = "LRS"
+container_name      = "dev-product-images" 
+container_access_type = "private"
+
+# load balancer
+frontend_port       = 80
+backend_port        = 80
+health_probe_port   = 80
+health_probe_request_path = "/health"
