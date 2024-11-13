@@ -10,6 +10,8 @@ app_service_plan_tier = "B1"
 # Database
 # sku_name = ""
 # version = ""
+database_admin_username = "usernamefortesting"
+database_admin_password = "Password4testing!"
 # only overwrite for testing purposes
 
 # Networking
