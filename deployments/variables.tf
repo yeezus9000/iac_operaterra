@@ -10,7 +10,7 @@ variable "state_container_name" {
   type        = string
 }
 
-variable "state_resource_group" {
+variable "state_resource_group_name" {
   description = "Resource group where the Terraform state storage account is located"
   type        = string
 }
