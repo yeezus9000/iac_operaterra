@@ -32,13 +32,13 @@ locals {
   subscription_id            = data.terraform_remote_state.global.outputs.subscription_id
 }
 
-resource "azurerm_resource_group" "rg" {
-  name     = "akseles-test-test-test"
-  location = local.location
-  tags = {
-    created_by = local.created_by_tag
-  }
-}
+# resource "azurerm_resource_group" "rg" {
+#   name     = "akseles-test-test-test"
+#   location = local.location
+#   tags = {
+#     created_by = local.created_by_tag
+#   }
+# }
 
 # module "networking" {
 #   source              = "../modules/networking"
