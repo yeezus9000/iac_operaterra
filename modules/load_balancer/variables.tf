@@ -38,3 +38,7 @@ variable "health_probe_request_path" {
   description = "The request path for the health probe"
   type        = string
 }
+
+variable "subnet_id" {
+  type = string
+}

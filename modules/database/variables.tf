@@ -45,3 +45,7 @@ variable "sql_version" {
     type = string
     default = "12.0"
 }
+
+variable "subnet_id" {
+  type = string
+}

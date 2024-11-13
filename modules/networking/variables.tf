@@ -19,11 +19,9 @@ variable "resource_group_name" {
 variable "address_space" {
   description = "The address space for the Virtual Network (VNet)"
   type        = list(string)
-  # default     = ["10.0.0.0/16"] # Default address space, can be overwritten with environment files
 }
 
 variable "subnet_prefixes" {
   description = "List of address prefixes for each subnet"
   type        = list(string)
-  # default     = ["10.0.1.0/24", "10.0.2.0/24"] # Default subnet prefixes, can be overwritten with environment files
 }

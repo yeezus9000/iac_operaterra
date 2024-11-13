@@ -22,3 +22,11 @@ variable "sku_name" {
   description = "SKU name for the App Service"
   type        = string
 }
+
+variable "vnet_integration" {
+  type = bool
+}
+
+variable "subnet_id" {
+  type = string
+}

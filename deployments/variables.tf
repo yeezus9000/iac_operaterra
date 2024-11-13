@@ -60,12 +60,6 @@ variable "created_by_tag" {
   default     = "akseles"
 }
 
-variable "string_to_hash" {
-  description = "Not in use, see documentation"
-  type        = string
-  default     = "this is a random string for hashing purposes"
-}
-
 # App Service variables
 variable "app_service_plan_tier" {
   type    = string
@@ -100,9 +94,9 @@ variable "address_space" {
   default = ["10.0.0.0/8"]
 }
 
-variable "app_subnet_prefixes" {
+variable "subnet_prefixes" {
   type    = list(string)
-  default = ["10.0.1.0/24", "10.0.2.0/24"]
+  default = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24", "10.0.4.0/24"]
 }
 
 # Storage variables
