@@ -1,6 +1,6 @@
 # Generate a random string for unique storage account name
 resource "random_string" "storage_suffix" {
-  length  = 4
+  length  = 2
   upper   = false
   special = false
 }
