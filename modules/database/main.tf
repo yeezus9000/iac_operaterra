@@ -3,8 +3,8 @@ resource "azurerm_mssql_server" "sql_server" {
   name                          = "${var.name_prefix}-sqlserver"
   location                      = var.location
   resource_group_name           = var.resource_group_name
-  administrator_login           = "4dm1n157r470r"
-  administrator_login_password  = "4-v3ry-53cr37-p455w0rd"
+  administrator_login           = var.admin_username
+  administrator_login_password  = var.admin_password
   public_network_access_enabled = var.public_network_access_enabled
   version                       = var.sql_version
 }
