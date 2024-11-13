@@ -42,31 +42,20 @@ resource "azurerm_resource_group" "rg" {
   }
 }
 
-module "app_service" {
-  source              = "../modules/app_service"
+module "database" {
+  source              = "../modules/database"
   name_prefix         = local.name_prefix
   location            = var.location
   resource_group_name = azurerm_resource_group.rg.name
 
-  os_type  = var.app_service_os
-  sku_name = var.app_service_sku
+  # SQL Server Credentials
+  admin_username = var.database_admin_username
+  admin_password = var.database_admin_password
+
+  # Additional configurations
+  public_network_access_enabled = false
+  sku_name                      = "Basic"
 }
-
-# Database is not working, come back to it later. Issues with API "login"
-# module "database" {
-#   source              = "../modules/database"
-#   name_prefix         = local.name_prefix
-#   location            = var.location
-#   resource_group_name = azurerm_resource_group.rg.name
-
-#   # SQL Server Credentials
-#   admin_username = var.database_admin_username
-#   admin_password = var.database_admin_password
-
-#   # Additional configurations
-#   public_network_access_enabled = false
-#   sku_name                      = "Basic"
-# }
 
 module "networking" {
   source              = "../modules/networking"
@@ -103,3 +92,13 @@ module "storage" {
 #   health_probe_port         = var.health_probe_port
 #   health_probe_request_path = var.health_probe_request_path
 # }
+
+module "app_service" {
+  source              = "../modules/app_service"
+  name_prefix         = local.name_prefix
+  location            = var.location
+  resource_group_name = azurerm_resource_group.rg.name
+
+  os_type  = var.app_service_os
+  sku_name = var.app_service_sku
+}
