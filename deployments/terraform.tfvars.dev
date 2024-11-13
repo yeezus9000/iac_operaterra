@@ -5,7 +5,7 @@
 # env and rg name is passed in thorugh workflow, only overwrite this for testing pruposes
 
 # App Service
-app_service_plan_tier = "B1"
+# app_service_plan_tier = "B1"
 
 # Database
 # sku_name = ""
@@ -19,13 +19,15 @@ app_service_plan_tier = "B1"
 # only overwrite for testing purposes
 
 # Storage
-account_tier        = "Standard"
-replication_type    = "LRS"
+#account_tier        = "Standard"
+# replication_type    = "LRS"
 container_name      = "dev-product-images" 
-container_access_type = "private"
+# container_access_type = "private"
 
 # load balancer
-frontend_port       = 80
-backend_port        = 80
-health_probe_port   = 80
-health_probe_request_path = "/health"
+# frontend_port       = 80
+# backend_port        = 80
+# health_probe_port   = 80
+# health_probe_request_path = "/health"
+# ip_sku = ""
+# only overwrite for testing purposes

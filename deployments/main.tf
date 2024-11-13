@@ -46,7 +46,7 @@ module "app_service" {
   source              = "../modules/app_service"
   name_prefix         = local.name_prefix
   location            = var.location
-  resource_group_name = local.resource_group_name
+  resource_group_name = azurerm_resource_group.rg.name
 
   os_type  = var.app_service_os
   sku_name = var.app_service_sku
@@ -57,7 +57,7 @@ module "app_service" {
 #   source              = "../modules/database"
 #   name_prefix         = local.name_prefix
 #   location            = var.location
-#   resource_group_name = local.resource_group_name
+#   resource_group_name = azurerm_resource_group.rg.name
 
 #   # SQL Server Credentials
 #   admin_username = var.database_admin_username
@@ -72,7 +72,7 @@ module "networking" {
   source              = "../modules/networking"
   name_prefix         = local.name_prefix
   location            = var.location
-  resource_group_name = local.resource_group_name
+  resource_group_name = azurerm_resource_group.rg.name
   address_space       = var.address_space
   subnet_prefixes     = var.app_subnet_prefixes
 }
@@ -83,23 +83,23 @@ module "storage" {
   source              = "../modules/storage"
   name_prefix         = local.name_prefix
   location            = var.location
-  resource_group_name = local.resource_group_name
+  resource_group_name = azurerm_resource_group.rg.name
   # Storage configuration
   account_tier          = var.account_tier
   replication_type      = var.replication_type
-  container_name        = "product-images"
+  container_name        = var.container_name
   container_access_type = "private"
 }
 
-# # Load Balancer Module
-# module "load_balancer" {
-#   source              = "../modules/load_balancer"
-#   name_prefix         = local.name_prefix
-#   location            = var.location
-#   resource_group_name = var.resource_group_name
+# Load Balancer Module
+module "load_balancer" {
+  source              = "../modules/load_balancer"
+  name_prefix         = local.name_prefix
+  location            = var.location
+  resource_group_name = azurerm_resource_group.rg.name
 
-#   frontend_port             = 80
-#   backend_port              = 80
-#   health_probe_port         = 80
-#   health_probe_request_path = "/health"
-# }
+  frontend_port             = var.frontend_port
+  backend_port              = var.backend_port
+  health_probe_port         = var.health_probe_port
+  health_probe_request_path = var.health_probe_request_path
+}
