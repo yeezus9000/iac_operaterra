@@ -41,7 +41,7 @@ variable "collation" {
   default     = "SQL_Latin1_General_CP1_CI_AS"
 }
 
-variable "version" {
+variable "sql_version" {
     type = string
     default = "12.0"
 }

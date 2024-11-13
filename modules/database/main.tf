@@ -5,13 +5,12 @@ resource "azurerm_mssql_server" "sql_server" {
   resource_group_name          = var.resource_group_name
   administrator_login          = var.admin_username
   administrator_login_password = var.admin_password
-
-  version = var.version
+  version                      = var.sql_version
 }
 
 # Define the Azure SQL Database
 resource "azurerm_mssql_database" "sql_db" {
-  name        = "${var.name_prefix}-sqldb"
-  server_id   = azurerm_mssql_server.sql_server.id
-  collation   = var.collation  # Set collation as required
+  name      = "${var.name_prefix}-sqldb"
+  server_id = azurerm_mssql_server.sql_server.id
+  collation = var.collation # Set collation as required
 }
