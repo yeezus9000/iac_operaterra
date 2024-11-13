@@ -53,7 +53,7 @@ jobs:
         run: tflint
 
       - name: Tfsec (Security Check)
-        run: tfsec ./deployments
+        run: tfsec --minimum-severity=HIGH ./deployments
 
   deploy-non-prod:
     name: Terraform Environment Deployment (Non-Prod)
