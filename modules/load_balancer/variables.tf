@@ -16,7 +16,7 @@ variable "resource_group_name" {
 variable "ip_sku" {
   description = "Type of public IP allocated"
   type        = string
-  default     = "standard"
+  default     = "Standard"
 }
 
 variable "frontend_port" {
