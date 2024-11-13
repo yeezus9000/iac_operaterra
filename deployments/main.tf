@@ -23,13 +23,17 @@ locals {
 
 }
 
-variable "hash" {
+variable "string" {
   type    = string
-  default = base64sha256("akseles")
+  default = "test"
+}
+
+locals {
+  hash = base64sha256(var.string)
 }
 
 output "hash" {
-  value = var.hash
+  value = local.hash
 }
 
 # resource "azurerm_resource_group" "rg" {
