@@ -91,15 +91,15 @@ module "storage" {
   container_access_type = "private"
 }
 
-# Load Balancer Module
-module "load_balancer" {
-  source              = "../modules/load_balancer"
-  name_prefix         = local.name_prefix
-  location            = var.location
-  resource_group_name = azurerm_resource_group.rg.name
+# # Load Balancer Module
+# module "load_balancer" {
+#   source              = "../modules/load_balancer"
+#   name_prefix         = local.name_prefix
+#   location            = var.location
+#   resource_group_name = azurerm_resource_group.rg.name
 
-  frontend_port             = var.frontend_port
-  backend_port              = var.backend_port
-  health_probe_port         = var.health_probe_port
-  health_probe_request_path = var.health_probe_request_path
-}
+#   frontend_port             = var.frontend_port
+#   backend_port              = var.backend_port
+#   health_probe_port         = var.health_probe_port
+#   health_probe_request_path = var.health_probe_request_path
+# }
