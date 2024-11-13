@@ -1,0 +1,33 @@
+# terraform.tfvars.dev
+
+# environment = ""
+# resource_group_name = ""
+# env and rg name is passed in thorugh workflow, only overwrite this for testing pruposes
+
+# App Service
+# app_service_plan_tier = "B1"
+
+# Database
+# sku_name = ""
+# version = ""
+# database_admin_password = "Password4testing!"
+# only overwrite for testing purposes
+
+# Networking
+# address_space     = ["10.0.0.0/16"]
+# subnet_prefixes     = ["10.0.1.0/24", "10.0.2.0/24"]
+# only overwrite for testing purposes
+
+# Storage
+#account_tier        = "Standard"
+# replication_type    = "LRS"
+container_name      = "staging-product-images" 
+# container_access_type = "private"
+
+# load balancer
+# frontend_port       = 80
+# backend_port        = 80
+# health_probe_port   = 80
+# health_probe_request_path = "/health"
+# ip_sku = ""
+# only overwrite for testing purposes
